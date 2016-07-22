@@ -1,0 +1,5 @@
+body{ margin-top:50px;}
+.container{ width:960px; padding:0;}
+
+.navbar-header{ margin-top:-3px;}
+.navbar-nav a{ color:darkblue !important; font-weight: bold;}
