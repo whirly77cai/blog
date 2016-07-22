@@ -24,10 +24,17 @@
 	            <li><a href="#">话题</a></li>
 	            <li><a href="#">发现</a></li>
 	        </ul>
+	        <% if(user){ %>
+	        <ul class="nav navbar-nav navbar-right">
+	        	<li><a href="/post"><span class="glyphicon glyphicon-pencil"></span> 发表博客</a></li>
+	            <li><a href="/logout">登出</a></li>
+	        </ul>
+	        <% } else { %>
 	        <ul class="nav navbar-nav navbar-right">
 	        	<li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册博客</a></li>
 	            <li><a href="/login">登录</a></li>
 	        </ul>
+	        <% } %>
 	        <button class="btn btn-primary navbar-btn navbar-right">联系我</button>
 	    </div>
 	</nav>
