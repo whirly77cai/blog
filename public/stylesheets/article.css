@@ -1,0 +1,49 @@
+a#re_Home{
+	display: block;
+	float:right;
+}
+a{
+	color: #000;
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: underline;
+	color:red;
+}
+
+body{
+	margin-top: 30px;
+}
+
+.article{
+	width: 80%;
+	margin: 0 auto;
+}
+
+.article h1{
+	margin: 0 auto 16px;
+}
+p.info{
+	margin: 0 auto 16px;
+}
+.article h1,.article p.info{
+	width: inherit;
+	text-align: center;
+}
+
+aside{
+	width: 80%;
+	margin: 0 auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+aside p.comment_content{
+
+}
+aside p.comment_info{
+	float: right;
+}
+
+div#comment_area{
+	margin-right: 0px;
+}

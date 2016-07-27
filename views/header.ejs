@@ -5,38 +5,61 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/stylesheets/bootstrap.css">
 	<link rel="stylesheet" href="/stylesheets/header.css">
+	<link rel="stylesheet" href="/stylesheets/style.css">
+	<script src="/javascripts/jquery-2.2.1.js"></script>
+	<script src="/javascripts/bootstrap.js"></script>	
 	<title>Blog</title>
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
+
+	<div class="container-fluid">
+		<nav  class="navbar navbar-default navbar-fixed-top">
 	    	<div class="navbar-header">
-	    		<a href="#" class="navbar-brand"><img src="">Logo</a>
+	    		<button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
+	    		    <span class="icon-bar"></span>
+	    		    <span class="icon-bar"></span>
+	    		    <span class="icon-bar"></span>
+	    		</button>
+	    		<a href="#" class="navbar-brand">Logo</a>
 	        </div>
-	        <form class="navbar-form navbar-left">
-	        	<div class="input-group">
-	            	<input type="text" class="form-control" style="width:320px" placeholder="搜索问题、话题或人">
-	                <span class="input-group-addon"><a href="#"><span class="glyphicon glyphicon-search"></span></a></span>
-	            </div>
-	        </form>
-	        <ul class="nav navbar-nav navbar-left">
-	        	<li><a href="/">首页</a></li>
-	            <li><a href="#">话题</a></li>
-	            <li><a href="#">发现</a></li>
-	        </ul>
-	        <% if(user){ %>
-	        <ul class="nav navbar-nav navbar-right">
-	        	<li><a href="/post"><span class="glyphicon glyphicon-pencil"></span> 发表博客</a></li>
-	            <li><a href="/logout">登出</a></li>
-	        </ul>
-	        <% } else { %>
-	        <ul class="nav navbar-nav navbar-right">
-	        	<li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册博客</a></li>
-	            <li><a href="/login">登录</a></li>
-	        </ul>
-	        <% } %>
-	        <button class="btn btn-primary navbar-btn navbar-right">联系我</button>
-	    </div>
-	</nav>
+	        
+		        
+		    <div class="navbar-collapse collapse">
+		    	<form class="navbar-form navbar-left">
+		    		<div class="input-group">
+		    	    	<input type="text" class="form-control" style="width:320px" placeholder="搜索问题、话题或人"><!--  
+		    	        --><span class="input-group-addon"><a href="#"><span class="glyphicon glyphicon-search"></span></a></span>
+		    	    </div>
+		    	</form>
+		        <ul class="nav navbar-nav navbar-left">
+		        	<li><a href="/">首页</a></li>
+		            <li><a href="#">话题</a></li>
+		            <li><a href="#">发现</a></li>
+		        </ul>
+		        <% if(user){ %>
+		        <ul class="nav navbar-nav navbar-right" id="nav_right">
+		        	<li><a href="/post"><span class="glyphicon glyphicon-pencil"></span> 发表博客</a></li>
+		            <li><a href="/logout">登出</a></li>
+		        </ul>
+		        <% } else { %>
+		        <ul class="nav navbar-nav navbar-right" id="nav_right">
+		        	<li><a href="/reg"><span class="glyphicon glyphicon-user"></span> 注册博客</a></li>
+		            <li><a href="/login">登录</a></li>
+		        </ul>
+		        <% } %>
+		        <button class="btn btn-primary navbar-btn navbar-right">联系我</button>
+	        </div>
+	    </nav>
+	</div>
+
+	
 	<article>
+	<% if(success) { %>
+	<h3><%= success %></h3>
+	<% } else if (error) { %>
+	<h3><%= error %></h3>
+	<% }else { %>
+	<h3>Welcome</h3>
+	<% } %>
+	<hr>
 		

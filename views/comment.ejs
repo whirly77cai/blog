@@ -1,0 +1,26 @@
+<hr>
+<% if(user && (user.name != post.name)) { %>
+	<form class="form-horizontal" method="POST">
+	  <div class="form-group" id="comment_area">
+	  	<p class="col-sm-offset-1 col-sm-9">这里是评论哦^_^</p>
+	  	<div class="col-sm-offset-1 col-sm-9">
+	  		<textarea class="form-control" id="comment_area" name="comments" rows="8"></textarea>
+	    </div>
+	  </div>
+	  <div class="col-sm-offset-9">
+	  	<input class="btn btn-default" type="submit" value="留言">
+	  </div>
+	</form>
+	<hr>
+<% } %>
+
+<aside class="col-sm-offset-1 col-sm-9">
+	<% post.comments.forEach(function(comment, index){ %>
+	<p class="comment_content"><%= comment.comment %></p>
+	<p class="comment_info">
+		<span><%= comment.name %></span><span>&nbsp;留言于</span><span><%= comment.time %></span>
+	</p>
+	<hr>
+	<% }) %>
+</aside>
+

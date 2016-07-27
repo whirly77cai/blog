@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.css">
+	<link rel="stylesheet" href="/stylesheets/article.css">
+
+</head>
+<body>
+<a href="/" class="btn btn-success" id="re_Home">HomePage</a>
+<article class="article">
+	<h1><%= post.title %></h1>
+	<p class="info">
+		author: <a href='/u/<%= post.name %>'><%= post.name %></a><span> | </span>
+		time: <%= post.time.minute %> 	
+		<% if(user && (user.name == post.name)) { %>
+		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<a href="/edit/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">编辑</a><span> | </span>
+		<a href="/remove/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">删除</a>
+		<% } %>
+		
+	</p>
+	<p class=""><%- post.article %></p>
+</article>
+<br>
+<br>
+<%- include comment %>
+<br>
+<br>
+</body>
+</html>

@@ -1,22 +1,22 @@
 <%- include header %>
 <br>
-<h2>发表文章</h2>
+<h2>编辑文章</h2>
 <br>
 <form class="form-horizontal" method="POST">
   <div class="form-group">
 	<h4 class="col-sm-offset-1 col-sm-9">标题</h4>
     <div class="col-sm-offset-1 col-sm-9">
-    	<input type="text" class="form-control" name="title"  placeholder="文章标题" autofocus="true">
+    	<input type="text" class="form-control" name="title"  disabled="disabled" value="<%= post.title %>">
     </div>
   </div>
   <div class="form-group">
   	<h4 class="col-sm-offset-1 col-sm-9">正文</h4>
   	<div class="col-sm-offset-1 col-sm-9">
-  		<textarea class="form-control" id="article_area" name="article" rows="20"></textarea>
+  		<textarea class="form-control" id="article_area" name="article" rows="20" autofocus="true"><%= post.article %></textarea>
     </div>
   </div>
   <div class="col-sm-offset-9">
-  	<input class="btn btn-default" type="submit" value="Submit">
+  	<input class="btn btn-default" type="submit" value="保存修改">
   </div>
 </form>
 <%- include footer %>

@@ -1,3 +1,17 @@
 <%- include header %>
-<p>Homepage</p>
+<br>
+<h2>HomePage</h2>
+<br>
+<% posts.forEach(function (post, index){  %>
+<article class="post">
+	<h2><a href='/u/<%= post.name %>/<%= post.time.day %>/<%= post.title %>'><%= post.title %><a/></h2>
+	<p>
+		author: <a href='/u/<%= post.name %>'><%= post.name %></a><span> | </span>
+		time: <%= post.time.minute %>
+	</p>
+	<p class="post_article"><%- post.article %></p>
+</article>
+<% })  %>
 <%- include footer %>
+
+

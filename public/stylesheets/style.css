@@ -1,8 +1,31 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+*{
+	margin: 0;
+	padding: 0;
 }
+/*textarea#article_area {
+	width: 70%;
+}
+input[name:'a_title']{
+	width: 70%;
+}*/
+#nav_right{
+	margin-right: 40px;
+}
+article.post{
+	margin: 0 auto;
+	width:70%;
+}
+article.post h2{
+	font-weight: bold;
+}
+article.post a{
+	text-decoration: none;
+	color: #000;
+}
+article.post h2 a:hover{
+	text-decoration: underline;
 
-a {
-  color: #00B7FF;
+}
+p.post_article{
+
 }
