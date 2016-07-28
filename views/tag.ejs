@@ -1,0 +1,17 @@
+<%- include header %>
+<br>
+<h2>分类管理</h2>
+<br>
+<form class="form-inline" method="POST">
+  <div class="form-group">
+    <label for="addTag">添加类别</label>
+    <input type="text" class="form-control" name="addTag" placeholder="如：军事">
+  </div>
+  <button type="submit" class="btn btn-default">添加</button>
+</form>
+<% if(user.tags){ %>
+<% user.tags.forEach(function (tag, index){  %>
+	<h3><a href='/tag/<%= tag %>'><%= tag %><a/></h3>
+<% })  %>
+<% } %>
+<%- include footer %>

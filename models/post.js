@@ -1,8 +1,9 @@
 var mongodb = require('./db');
 
-function Post(name, title, article){
+function Post(name, title, tag, article){
     this.name = name;
     this.title = title;
+    this.tag = tag;
     this.article = article;
 };
 
@@ -22,6 +23,7 @@ Post.prototype.save = function (callback) {
         name: this.name,
         time: time,
         title: this.title,
+        tag: this.tag,
         article: this.article,
         comments: []
     };
@@ -46,12 +48,12 @@ Post.prototype.save = function (callback) {
     });
 };
 
-Post.getAll = function (name, callback) {
+Post.getPart = function (name, page, callback) {
     mongodb.open(function (err, db) {
         if(err){
             return callback(err);
         }
-        db.collection('posts', function (err, collectoin) {
+        db.collection('posts', function (err, collection) {
             if(err){
                 return callback(err);
             }
@@ -59,13 +61,18 @@ Post.getAll = function (name, callback) {
             if(name){
                 query.name = name;
             }
-            collectoin.find(query).sort({time: -1}).toArray(function (err, docs) {
-                mongodb.close();
-                if(err){
-                    return callback(err);
-                }
-                callback(null, docs);
-            });
+            collection.count(query, function (err, total) {
+                collection.find(query,{
+                    skip: (page - 1) * 3,
+                    limit: 3
+                }).sort({time: -1}).toArray(function (err, docs) {
+                    mongodb.close();
+                    if(err){
+                        return callback(err);
+                    }
+                    callback(null, docs, total);
+                });
+            })
         });
     });
 };
@@ -151,3 +158,27 @@ Post.remove = function (name, day, title, callback) {
         });
     });
 };
+Post.getTag = function (tag, callback) {
+    mongodb.open(function (err, db) {
+        if(err){
+            return callback(err);
+        }
+        db.collection('posts', function (err, collection) {
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            var query = {
+                "tag": tag
+            };
+            collection.find(query).sort({time: -1}).toArray(function (err, docs) {
+                mongodb.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, docs)
+            });
+        });
+    });
+
+}

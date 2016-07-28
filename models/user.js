@@ -16,7 +16,8 @@ User.prototype.save = function(callback){
     var user = {
         name: this.name,
         password: this.password,
-        email: this.email
+        email: this.email,
+        tags: []
     };
 
     mongodb.open(function (err, db) {

@@ -3,14 +3,15 @@ var router = express.Router();
 var crypto = require('crypto'),
 	User = require('../models/user.js'),
 	Post = require('../models/post.js'),
-	Comment = require('../models/comment.js');
+	Comment = require('../models/comment.js'),
+	Tag = require('../models/tags.js');
 
 
 
 // module.exports = router;
 module.exports = function(app){
 	app.get('/',function(req, res){
-		Post.getAll(null, function (err, posts) {
+		Post.getPart(null, 1, function (err, posts) {
 			if(err){
 				posts = [];
 			}
@@ -104,18 +105,26 @@ module.exports = function(app){
 	app.route('/post')
 		.get(checkLogin)
 		.get(function (req, res) {
-			res.render('post', {
-				title: '发表文章',
-				user: req.session.user,
-				success: req.flash('success').toString(),
-				error: req.flash('error').toString()
+			var currentUser = req.session.user;
+			User.get(currentUser.name, function (err, user) {
+				if(err){
+					req.flash("error", err);
+					return res.redirect('/');
+				}
+				req.session.user = user;
+				res.render('post',{
+					user: req.session.user,
+					success: req.flash('success').toString(),
+					error: req.flash('error').toString()
+				});
 			});
+
 		})
 		.post(checkLogin)
 		.post(function (req, res) {
 			// body...
 			var currentUser = req.session.user,
-				post = new Post(currentUser.name, req.body.title, req.body.article);
+				post = new Post(currentUser.name, req.body.title, req.body.tag, req.body.article);
 			post.save(function (err) {
 				if(err){
 					return res.redirect('/');
@@ -125,19 +134,24 @@ module.exports = function(app){
 			});
 		});
 	app.get('/u/:name', function (req, res) {
+		var page = req.query.p ? parseInt(req.query.p) : 1;
 		User.get(req.params.name, function (err, user) {
 			if(!user){
 				req.flash("error", "该用户不存在");
 				return res.redirect('/');
 			}
-			Post.getAll(user.name, function (err, posts) {
+			Post.getPart(user.name, page, function (err, posts, total) {
 				if(err){
 					req.flash("error", err);
 					return res.redirect('/');
 				}
+				console.log(posts);
 				res.render('user',{
 					username: user.name,
 					posts: posts,
+					page: page,
+					isFirstPage: ((page - 1) == 0),
+					isLastPage: ((page - 1) * 3 + posts.length) == total,
 					user: req.session.user,
 					success: req.flash('success').toString(),
 					error: req.flash('error').toString()
@@ -221,6 +235,51 @@ module.exports = function(app){
 			res.redirect('/');
 		})
 	});
+	app.route('/tag')
+		.get(function (req, res) {
+			var currentUser = req.session.user;
+			User.get(currentUser.name, function (err, user) {
+				if(err){
+					req.flash("error", err);
+					return res.redirect('/');
+				}
+				res.render('tag',{
+					user: user,
+					success: req.flash('success').toString(),
+					error: req.flash('error').toString()
+				});
+			});
+		})
+		.post(function (req, res) {
+			var currentUser = req.session.user,
+				newTag = new Tag(currentUser.name, req.body.addTag);
+			newTag.save(function (err) {
+				if(err){
+					req.flash("error", err);
+					return res.redirect('back');
+				}else{
+					req.flash("success", "添加成功");
+					res.redirect('back');
+				}
+			});
+		});
+	app.route('/tag/:tag')
+		.get(function (req, res) {
+			Post.getTag(req.params.tag, function (err, posts) {
+				if(err){
+					req.flash("error", err);
+					return res.redirect('/');
+				}
+				console.log(posts);
+				res.render('tagArticles',{
+					user: req.session.user,
+					tag: req.params.tag,
+					posts: posts,
+					success: req.flash('success').toString(),
+					error: req.flash('error').toString()
+				});
+			})
+		})
 	app.get('/logout', function (req, res) {
 		req.session.user = null;
 		req.flash('success', 'do not leave me!');

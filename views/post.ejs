@@ -10,6 +10,19 @@
     </div>
   </div>
   <div class="form-group">
+	<h4 class="col-sm-offset-1 col-sm-9">标签</h4>
+  	<div class="col-sm-offset-1 col-sm-9">
+  		<select class="form-control" id="tag_select" name="tag" >
+  		    <% if(user.tags){ %>
+  		    <% user.tags.forEach(function (tag, index){  %>
+  		  	 <option><%= tag %></option>
+  		    <% })  %>
+  		    <% } %>
+  		</select> 
+  	</div> 
+  </div>
+  
+  <div class="form-group">
   	<h4 class="col-sm-offset-1 col-sm-9">正文</h4>
   	<div class="col-sm-offset-1 col-sm-9">
   		<textarea class="form-control" id="article_area" name="article" rows="20"></textarea>

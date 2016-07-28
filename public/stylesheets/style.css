@@ -2,6 +2,10 @@
 	margin: 0;
 	padding: 0;
 }
+a{
+	color: #000;
+	text-decoration: none;
+}
 /*textarea#article_area {
 	width: 70%;
 }
@@ -28,4 +32,12 @@ article.post h2 a:hover{
 }
 p.post_article{
 
+}
+span.paging{
+	float:right;
+	padding-right: 30%;
+}
+
+select#tag_select{
+	width: 60px;
 }
