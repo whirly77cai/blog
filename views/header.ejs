@@ -20,31 +20,39 @@
 	    		    <span class="icon-bar"></span>
 	    		    <span class="icon-bar"></span>
 	    		</button>
-	    		<a href="#" class="navbar-brand">Logo</a>
+	    		<a href="/" class="navbar-brand">Logo</a>
 	        </div>
 	        
 		        
 		    <div class="navbar-collapse collapse">
-		    	<form class="navbar-form navbar-left">
+		    	<form class="navbar-form navbar-left" method="GET" action="/search">
 		    		<div class="input-group">
-		    	    	<input type="text" class="form-control" style="width:320px" placeholder="搜索问题、话题或人"><!--  
-		    	        --><span class="input-group-addon"><a href="#"><span class="glyphicon glyphicon-search"></span></a></span>
+		    	    	<input type="text" class="form-control" style="width:320px" placeholder="搜索问题、话题或人" name="keyword"><!--  
+		    	        --><span class="input-group-addon"><button style="border: none;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
 		    	    </div>
 		    	</form>
 		        <ul class="nav navbar-nav navbar-left">
-		        	<li><a href="/">首页</a></li>
+		        	<% if(user){ %>
+		        		<li><a href="/u/<%= user.name %>">我的空间</a></li>
+		        	<% }else{ %>
+		        		<li><a href="/">首页</a></li>
+		        	<% } %>
 		            <li class="dropdown">
 		                      <a href="/tag" class="dropdown-toggle" data-toggle="dropdown" " aria-haspopup="true" aria-expanded="false">话题 <span class="caret"></span></a>
 		                      <ul class="dropdown-menu">
-		                      	<li><a href="/tag">管理类别</a></li>
-		                        <% if(user.tags){ %>
+		                      	
+		                        <% if(user){ %>
 		                        <% user.tags.forEach(function (tag, index){  %>
-									<li><a href="/tag/<%= tag %>"><%= tag %></a></li>
+		                        	<% if(tag == "管理类别"){ %>
+		                        		<li><a href="/tag">管理类别</a></li>
+		                        	<% }else{ %>
+										<li><a href="/tag/<%= tag %>"><%= tag %></a></li>
+									<% } %>
 		                        <% })  %>
 		                        <% } %>
 		                      </ul>
 		                    </li>
-		            <li><a href="#">发现</a></li>
+		            <li><a href="/link">发现</a></li>
 		        </ul>
 		        <% if(user){ %>
 		        <ul class="nav navbar-nav navbar-right" id="nav_right">

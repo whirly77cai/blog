@@ -15,7 +15,9 @@
   		<select class="form-control" id="tag_select" name="tag" >
   		    <% if(user.tags){ %>
   		    <% user.tags.forEach(function (tag, index){  %>
-  		  	 <option><%= tag %></option>
+  		    	<% if(tag != "管理类别"){ %>
+  		  	 		<option><%= tag %></option>
+  		  	 	<% } %>
   		    <% })  %>
   		    <% } %>
   		</select> 

@@ -17,7 +17,7 @@ User.prototype.save = function(callback){
         name: this.name,
         password: this.password,
         email: this.email,
-        tags: []
+        tags: ["管理类别"]
     };
 
     mongodb.open(function (err, db) {

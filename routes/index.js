@@ -236,6 +236,7 @@ module.exports = function(app){
 		})
 	});
 	app.route('/tag')
+		.get(checkLogin)
 		.get(function (req, res) {
 			var currentUser = req.session.user;
 			User.get(currentUser.name, function (err, user) {
@@ -264,6 +265,7 @@ module.exports = function(app){
 			});
 		});
 	app.route('/tag/:tag')
+		.get(checkLogin)
 		.get(function (req, res) {
 			Post.getTag(req.params.tag, function (err, posts) {
 				if(err){
@@ -279,11 +281,53 @@ module.exports = function(app){
 					error: req.flash('error').toString()
 				});
 			})
-		})
+		});
+	app.route('/reprint/:name/:day/:title')
+		.get(checkLogin)
+		.get(function (req, res) {
+			Post.getOne(req.params.name, req.params.day, req.params.title, function (err, post) {
+				if(err){
+					req.flash("error", err);
+					return res.redirect('back');
+				}
+				var currentUser = req.session.user,
+					reprint_from = { "name": post.name, "day": post.time.day, "title": post.title},
+					reprint_to = {"name": currentUser.name};
+				Post.reprint(reprint_from, reprint_to, function (err) {
+					if(err){
+						req.flash("error", err);
+						return res.redirect('back');
+					}
+					req.flash("success", "转载成功啦");
+					res.redirect('/u/'+ currentUser.name);
+				});
+			});
+		});
 	app.get('/logout', function (req, res) {
 		req.session.user = null;
 		req.flash('success', 'do not leave me!');
 		res.redirect('/');
+	});
+	app.get('/search', function (req, res) {
+		Post.search(req.query.keyword, function (err, posts) {
+			if(err){
+				req.flash("error", err);
+				return res.redirect('/');
+			}
+			res.render('search', {
+				posts: posts,
+				user: req.session.user,
+				success: req.flash('success').toString(),
+				error: req.flash('error').toString()
+			});
+		});
+	});
+	app.get('/link', function (req, res) {
+		res.render('link');
+	})
+
+	app.use(function (req, res) {
+		res.render('404');
 	});
 
 

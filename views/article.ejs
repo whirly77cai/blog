@@ -9,6 +9,7 @@
 </head>
 <body>
 <a href="/" class="btn btn-success" id="re_Home">HomePage</a>
+
 <article class="article">
 	<h1><%= post.title %></h1>
 	<p class="info">
@@ -19,9 +20,37 @@
 		<a href="/edit/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">编辑</a><span> | </span>
 		<a href="/remove/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">删除</a>
 		<% } %>
-		
+		<% var flag = 1 %>
+		<% if(user && (user.name != post.name)){ %>
+			<% if((post.reprint_info.reprint_from != undefined) && post.reprint_info.reprint_from.name == user.name){ %>
+				<% flag = 0 %>
+			<% } %>
+			<% if(post.reprint_info.reprint_to != undefined){ %>
+				<% post.reprint_info.reprint_to.forEach(function(reprint_to, index){ %>
+					<% if(user.name == reprint_to.name){ %>
+						<% flag = 0 %>
+					<% } %>
+				<% }) %>
+			<% } %>
+		<% }else { %>
+			<% flag = 0 %>
+		<% } %>
+		<% if(flag){ %>
+			<a href="/reprint/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">转载</a>
+		<% } %>
+		<span> | 已有
+		<% if(post.reprint_info.reprint_to){ %>
+			<%= post.reprint_info.reprint_to.length %>
+		<% }else{ %>
+			0
+		<% } %>人转载</span>
 	</p>
+
 	<p class=""><%- post.article %></p>
+	<br>
+	<% if(post.reprint_info.reprint_from){ %>
+		<a href="/u/<%= post.reprint_info.reprint_from.name %>/<%= post.reprint_info.reprint_from.day %>/<%= post.reprint_info.reprint_from.title %>">原文链接</a>
+	<% } %>
 </article>
 <br>
 <br>
